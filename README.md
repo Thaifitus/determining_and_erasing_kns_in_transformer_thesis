@@ -1,59 +1,61 @@
-# knowledge-neurons
-Code for the ACL-2022 paper "Knowledge Neurons in Pretrained Transformers"
+# Determining and erasing knowledge neurons in Transformer model
+
+From 1/2024 to 8/2024, defense at Computer Science committee of Information Technology faculty - VNU-HCM University of Science. \
+Advisor: Assoc. Prof. [Lê Hoàng Thái](https://www.fit.hcmus.edu.vn/~lhthai/).
+
+| Name   | Nguyễn Trương Hoàng Thái  | Nguyễn Thiên Phúc[^1]  |
+|---|---|---|
+| Student ID  | 20127625  | 20127681  |
 
 # Introduction
+Our research focuses on determining and erasing knowledge neurons in [BERT-based-case](https://doi.org/10.48550/arXiv.1810.04805) model based on [integrated gradients](https://proceedings.mlr.press/v70/sundararajan17a.html) method, with the goal of privacy and saving retrain resource. Our experiment is conducted on cloze task [dataset](https://github.com/Thaifitus/determining_and_erasing_kns_in_transformer_thesis/blob/main/data/PARAREL/data_all_allbags.json) and evaluated with two main metrics which are model accuracy and perplexity. Our research mainly based on [Damai Dai 2022](https://doi.org/10.18653/v1/2022.acl-long.581) research.
 
-This project helps you to reproduce all the results presented in our work about knowledge neurons, including calculating the knowledge attribution scores, identifying knowledge neurons, computing all the statistics, and plotting all the figures.
+# Task List
+| Task  | Description  | Thai  | Phuc  |
+|---|---|---|---|
+| **I. Theory research**  |   | |   |
+| Machine Unlearning survey  | Read survey paper [A Survey of Machine Unlearning](https://doi.org/10.48550/arXiv.2209.02299) and the [repository](https://github.com/tamlhp/awesome-machine-unlearning.git) to study Machine Unlearning and choose thesis topic. | <center>X</center>  | <center>X</center>  |
+| Transformer architecture   | 1. RNN, LSTM, seq2seq model <br> 2. Attention mechanism <br> 3. Vanilla Transformer model | <center>X</center>  | <center>X</center>  |
+| BERT model  | 1. Bidirectional property <br> 2. Model architecture <br> 3. Masked Language Model (MLM), Next Sentence Prediction (NSP).   | <center>X</center>  |   |
+| Knowledge Neurons in Pretrained Transformers (proposed method)  | 1. Transformer is related to key-value <br> 2. Assessing Task (cloze task) <br> 3. Knowledge attribution method <br> 4. Neuron refining <br> 5. Experiments <br> 6. Erasing relation | <center>X</center>  | <center>X</center>[^2]  |
+| Key-Value Memories  | Feed-forward layers as key-value memories, keys capture input patterns in paper [Transformer Feed-Forward Layers Are Key-Value Memories](https://doi.org/10.48550/arXiv.2012.14913).  | <center>X</center>  |   |
+| Integrated Gradients  | Read paper [Axiomatic Attribution for Deep Networks](https://proceedings.mlr.press/v70/sundararajan17a.html).  | <center>X</center>[^3]  | <center>X</center>  |
+| 	Self-attention attribution method | Read paper [Self-Attention Attribution: Interpreting Information Interactions Inside Transformer](https://ojs.aaai.org/index.php/AAAI/article/view/17533).  | <center>X</center>[^3]  | <center>X</center>  |
+| Data  | Research PARAREL dataset.  | <center>X</center>[^3]  | <center>X</center>   |
+| **II. Code research**  |   |   |   |
+| EDA  | Basic Data Exploration (implemented in single notebook): row, column, duplication, WordCloud, length, template, prompt.  | <center>X</center>[^3]  | <center>X</center>  |
+| Model  | Study custom BERT model in *custom_bert.py*.  | <center>X</center>  |   |
+| Calculate attribution score of neurons  | Create function recipe and modify *1_analyze_mlm.py* for experiment.  | <center>X</center>  | <center>X</center>[^4]  |
+| Refine neurons  | Create function recipe and modify *2_get_kn.py* for experiment.  | <center>X</center>  |   |
+| Knowledge neuron statistic  | Create function recipe and modify *2_analyze_kn.py* for experiment.  | <center>X</center>  |   |
+| Modify attribution score  | Create function recipe and modify (amplifying coefficient 4 and 6) *3_modify_activation.py* for experiment.  | <center>X</center>  |   |
+| Erase knowledge  | Create function recipe and modify *7_erase_knowledge.py* for experiment; erase knowledge neurons in dense (hidden) layer.  | <center>X</center>  |   |
+| Survey implement  | Create notebook files, research GPUs, apply Git.   | <center>X</center>  |   |
+| **III. Write latex report**  | (1) Section: 1.1 + 2.1 + 2.2 + 3.1 + 3.2 + 3.3.2 + 4.1.1 <br> (2) Section: 1.2 &rarr; 1.4 + 2.3 + 2.4 + 3.3.1 + 3.4 + 4.1.2 &rarr; 4.6  | <center>X</center>[^5]  | <center>X</center>[^6]  |
+| **IV. Other tasks**  |   |   |   |
+| Remove gpt-1 research  |   | <center>X</center>  |   |
+| Rewrite proposal, change thesis title  | Clarify contribution of the thesis.  | <center>X</center>  |   |
 
-# Code Usage
+# Reproduce experiment results
+To reproduce results, upload notebook files in `/exe_notebook` to Kaggle or Google , then modify survey parameter(s) and `Run all` cells. Please refer [Hunter-DDM/knowledge-neurons](https://github.com/Hunter-DDM/knowledge-neurons/blob/main/README.md) repository for parameters description.
 
-First please change the working directory to `src/`.
+# Hardware, language and framework
+We use GPU P100, GPU L4 and GPU A100 for the experiment. The programming language is Python using Pytorch framework.
 
-### Calculate the Attribution Scores
-Run `bash 1_run_mlm.sh param1`, where param1 is the relation name to analyze, such as "P101". You can write a script to run this command for each of the 34 relations. This command will calculate the attribution scores for all the facts.
+# Challenge
+After proposal submission which was theoretical research, Phuc could not understand model's inference process and source code implementation. I had to complete tasks, remove GPT-1 with some survey tasks by myself. \
+I want to give sincere thanks to my family and our advisor Assoc. Prof. Le Hoang Thai for supporting me during the thesis.
 
-### Identify Knowledge Neurons
-Run `bash 2_run_kn.sh`. This command will identify and refine knowledge neurons for each fact, and give their statistics along with a figure about the knowledge neuron distribution.
+# Pricing (VND)
+* Colab Pro+: $\approx$ 1 384 000 (Colab price + tax + bank charge)
+* Printing: $\approx$ 180 000
+* 
 
-### Modify Knowledge Neurons
-Run `3_run_modify_activation.sh`. This command will modify the activation values of knowledge neurons and record the corresponding results.
+[^1]: Contribution percentage is 17.19% based on the above formula.
+[^2]: Research 2 + 3 + dataset in 5.
+[^3]: Propose research structure and review result.
+[^4]: Study two functions *example2feature* and *scaled_input*.
+[^5]: Write sections listed in (2).
+[^6]: Write sections listed in (1).
 
-### Check Knowledge Neuron Activation for Prompts
-Run `4_run_distant.sh`. This command will check the activation values of knowledge neurons for different types of prompts crawled from web pages.
-
-### Produce Activating Prompts
-Run `5_run_trigger_examples.sh`. This command will produce activating prompts.
-
-### Update Facts
-Run `6_run_edit.sh param1 param2`, where param1 and param2 are two hyper-parameters. In our paper, they are set to 1 and 8, respectively. This command will edit sampled facts.
-
-### Erase Relations
-Run `7_run_erase.sh param1`, where param1 is the relation name to erase. This command will erase a relation. In our paper, we try to erase P19, P27, P106, and P937, which can be regarded as privacy information. Of course, you can erase any relation as you like.
-
-### Plot Figures
-Run `8_run_plot.sh`. This command will plot two figures that visualize the results from `3_run_modify_activation.sh` and `4_run_distant.sh`.
-
-## Citation
-
-If you use this code for your research, please kindly cite our ACL-2022 paper:
-```
-@inproceedings{dai2022kn,
-  author    = {Damai Dai and
-               Li Dong and
-               Yaru Hao and
-               Zhifang Sui and
-               Baobao Chang and
-               Furu Wei},
-  title     = {Knowledge Neurons in Pretrained Transformers},
-  booktitle = {Proceedings of the 60th Annual Meeting of the Association for Computational
-               Linguistics (Volume 1: Long Papers), {ACL} 2022, Dublin, Ireland,
-               May 22-27, 2022},
-  pages     = {8493--8502},
-  year      = {2022},
-}
-```
-
-## Contact
-
-Damai Dai: daidamai@pku.edu.cn
-Li Dong: lidong1@microsoft.com
+Phuc's contribution formula $`\frac{\text{task completed in Task List (I + II + IV)}}{\text{total task in three corresponding sections}}`$ &rarr; $`\frac{0.5 * 5 + 0.25}{16}`$. Team tasks like Machine Unlearning survey, Transformer architecture in section I and tasks in section III are not contained in contribution.
