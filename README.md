@@ -3,7 +3,7 @@
 From 1/2024 to 8/2024, defense at Computer Science committee of Information Technology faculty - VNU-HCM University of Science. \
 Advisor: Assoc. Prof. [Lê Hoàng Thái](https://www.fit.hcmus.edu.vn/~lhthai/).
 
-| Name   | Nguyễn Trương Hoàng Thái  | Nguyễn Thiên Phúc[^1]  |
+| Name   | Nguyễn Trương Hoàng Thái[^1]  | Nguyễn Thiên Phúc[^1]  |
 |---|---|---|
 | Student ID  | 20127625  | 20127681  |
 
@@ -49,10 +49,9 @@ I want to give sincere thanks to my family and our advisor Assoc. Prof. Le Hoang
 # Pricing (VND)
 * Colab Pro+: $\approx$ 1 384 000 (Colab price + tax + bank charge)
 * Printing: $\approx$ 180 000
-* 
 
-Phuc's contribution formula: $`\frac{\text{task completed in Task List (I + II + IV)}}{\text{total task in three corresponding sections}}`$ &rarr; $`\frac{0.5 * 5 + 0.25}{16}`$. Team tasks like Machine Unlearning survey, Transformer architecture in section I and section III are not contained in contribution.
-[^1]: Contribution percentage is 17.19% based on the above formula.
+Contribution formula: $`\frac{\text{task completed in Task List (I + II + IV)}}{\text{total task in three corresponding sections}}`$. Team tasks like Machine Unlearning survey, Transformer architecture in section I and section III are not contained in contribution. Phuc's contribution: $`\frac{0.5 \times 5 + 0.25}{16}`$, Thai's contribution: $`\frac{1 + 0.5 + 1 + 0.5 \times 4 + 1 + 0.75 + 7}{16}`$.
+[^1]: Phuc's contribution percentage is 17.19% based on the above formula. Thai's contribution percentage is 82.81%.
 [^2]: Research 2 + 3 + dataset in 5.
 [^3]: Propose research structure and review result.
 [^4]: Study two functions *example2feature* and *scaled_input*.
