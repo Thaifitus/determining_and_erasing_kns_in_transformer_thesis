@@ -37,7 +37,7 @@ Our research focuses on determining and erasing knowledge neurons in [BERT-based
 | Rewrite proposal, change thesis title  | Clarify contribution of the thesis.  | <center>X</center>  |   |
 
 # Reproduce experiment results
-To reproduce results, upload notebook files in `/exe_notebook` to Kaggle or Google , then modify survey parameter(s) and `Run all` cells. Please refer [Hunter-DDM/knowledge-neurons](https://github.com/Hunter-DDM/knowledge-neurons/blob/main/README.md) repository for parameters description.
+To reproduce results, upload notebook files in `/exe_notebook` to Kaggle or Google Colab, then modify survey parameter(s) and `Run all` cells. Please refer [Hunter-DDM/knowledge-neurons](https://github.com/Hunter-DDM/knowledge-neurons/blob/main/README.md) repository for parameters description.
 
 # Hardware, language and framework
 We use GPU P100, GPU L4 and GPU A100 for the experiment. The programming language is Python using Pytorch framework.
@@ -49,6 +49,7 @@ I want to give sincere thanks to my family and our advisor Assoc. Prof. Le Hoang
 # Pricing (VND)
 * Colab Pro+: $\approx$ 1 384 000 (Colab price + tax + bank charge)
 * Printing: $\approx$ 180 000
+* Overleaf subscription (student plan): 235 000
 
 Contribution formula: $`\frac{\text{task completed in Task List (I + II + IV)}}{\text{total task in three corresponding sections}}`$. Team tasks like Machine Unlearning survey, Transformer architecture in section I and section III are not contained in contribution. Phuc's contribution: $`\frac{0.5 \times 5 + 0.25}{16}`$, Thai's contribution: $`\frac{1 + 0.5 + 1 + 0.5 \times 4 + 1 + 0.75 + 7}{16}`$.
 [^1]: Phuc's contribution percentage is 17.19% based on the above formula. Thai's contribution percentage is 82.81%.
