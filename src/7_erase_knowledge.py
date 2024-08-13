@@ -434,7 +434,7 @@ def main():
         o_acc = o_correct / o_total
 
         # ============================================== erase knowledge begin ===========================================================
-        print(f'\nerasing -- kn_num: {len(kn_rel)}')
+        print(f'\nerasing BASE -- kn_num: {len(kn_rel)}')
         # unk_emb = model.bert.embeddings.word_embeddings.weight[100]
         with torch.no_grad():
             for layer, pos in kn_rel:
