@@ -345,11 +345,11 @@ def main():
                     ori_gold_prob = F.softmax(logits, dim=-1)[0, gold_label]  # scalar
 
                     # remove
-                    _, logits = model(input_ids=input_ids, attention_mask=input_mask, token_type_ids=segment_ids, tgt_pos=tgt_pos, tgt_layer=0, imp_pos=kn_bag, imp_op='remove')  # (1, n_vocab)
-                    int_gold_prob = F.softmax(logits, dim=-1)[0, gold_label]  # scalar
-                    rlt_dict[save_key]['own:ori_prob'].append(ori_gold_prob.item())
-                    rlt_dict[save_key]['rm_own:ave_delta'].append((int_gold_prob - ori_gold_prob).item())
+                    # _, logits = model(input_ids=input_ids, attention_mask=input_mask, token_type_ids=segment_ids, tgt_pos=tgt_pos, tgt_layer=0, imp_pos=kn_bag, imp_op='remove')  # (1, n_vocab)
+                    # int_gold_prob = F.softmax(logits, dim=-1)[0, gold_label]  # scalar
+                    # rlt_dict[save_key]['rm_own:ave_delta'].append((int_gold_prob - ori_gold_prob).item())
 
+                    rlt_dict[save_key]['own:ori_prob'].append(ori_gold_prob.item())
                     # enhance
                     _, logits = model(input_ids=input_ids, attention_mask=input_mask, token_type_ids=segment_ids, tgt_pos=tgt_pos, tgt_layer=0, imp_pos=kn_bag, imp_op='enhance')  # (1, n_vocab)
                     int_gold_prob = F.softmax(logits, dim=-1)[0, gold_label]  # scalar
@@ -400,9 +400,9 @@ def main():
 
             # calculate mean and ratio values for the relation
             for k, v in rlt_dict[save_key].items():
-                if rlt_dict[save_key][k] is not None and len(rlt_dict[save_key][k]) > 0: # all data is not None excepts '{}_ratio'
+                if rlt_dict[save_key][k] is not None and len(rlt_dict[save_key][k]) > 0: # all data is not None excepts '{}_ratio' and 'rm...'
                     rlt_dict[save_key][k] = np.array(rlt_dict[save_key][k]).mean()
-            rlt_dict[save_key]['rm_own:ave_delta_ratio'] = rlt_dict[save_key]['rm_own:ave_delta'] / rlt_dict[save_key]['own:ori_prob']
+            # rlt_dict[save_key]['rm_own:ave_delta_ratio'] = rlt_dict[save_key]['rm_own:ave_delta'] / rlt_dict[save_key]['own:ori_prob']
             rlt_dict[save_key]['eh_own:ave_delta_ratio'] = rlt_dict[save_key]['eh_own:ave_delta'] / rlt_dict[save_key]['own:ori_prob']
             # rlt_dict[save_key]['rm_oth:ave_delta_ratio'] = rlt_dict[save_key]['rm_oth:ave_delta'] / rlt_dict[save_key]['oth:ori_prob']
             # rlt_dict[save_key]['eh_oth:ave_delta_ratio'] = rlt_dict[save_key]['eh_oth:ave_delta'] / rlt_dict[save_key]['oth:ori_prob']
