@@ -333,7 +333,7 @@ def main():
         for kn_bag in kn_bag_list:
             for kn in kn_bag:
                 kn_counter.update([pos_list2str(kn)])
-        most_common_kn = kn_counter.most_common(14)
+        most_common_kn = kn_counter.most_common(20)
         print(most_common_kn)
         kn_rel = [pos_str2list(kn_str[0]) for kn_str in most_common_kn] # e.g kn_rel == [[2, 3071], [1, 3071], ...]
 
@@ -344,94 +344,94 @@ def main():
 
         # record running time
         tic = time.perf_counter()
-        # # ========================== eval self =====================
-        # correct = 0
-        # total = 0
-        # log_ppl_list = []
+        # ========================== eval self =====================
+        correct = 0
+        total = 0
+        log_ppl_list = []
 
-        # # loop considers each template prompt
-        # for bag_idx, eval_bag in enumerate(eval_bag_list_perrel[rel]):
-        #     # print(f'evaluating ori {bag_idx} / {len(eval_bag_list_perrel[rel])}')
-        #     # loop considers each triple
-        #     for eval_example in eval_bag: # eval_example is a list (a triple); eval_bag is a list (template prompts)
-        #         eval_features, tokens_info = example2feature(eval_example, args.max_seq_length, tokenizer)
-        #         # convert features to long type tensors
-        #         baseline_ids, input_ids, input_mask, segment_ids = eval_features['baseline_ids'], eval_features['input_ids'], eval_features['input_mask'], eval_features['segment_ids']
-        #         baseline_ids = torch.tensor(baseline_ids, dtype=torch.long).unsqueeze(0)
-        #         input_ids = torch.tensor(input_ids, dtype=torch.long).unsqueeze(0)
-        #         input_mask = torch.tensor(input_mask, dtype=torch.long).unsqueeze(0)
-        #         segment_ids = torch.tensor(segment_ids, dtype=torch.long).unsqueeze(0)
-        #         # baseline_ids = baseline_ids.to(device) # shape==(1, 128)
-        #         input_ids = input_ids.to(device) # shape==(1, 128)
-        #         input_mask = input_mask.to(device) # shape==(1, 128)
-        #         segment_ids = segment_ids.to(device) # shape==(1, 128)
+        # loop considers each template prompt
+        for bag_idx, eval_bag in enumerate(eval_bag_list_perrel[rel]):
+            # print(f'evaluating ori {bag_idx} / {len(eval_bag_list_perrel[rel])}')
+            # loop considers each triple
+            for eval_example in eval_bag: # eval_example is a list (a triple); eval_bag is a list (template prompts)
+                eval_features, tokens_info = example2feature(eval_example, args.max_seq_length, tokenizer)
+                # convert features to long type tensors
+                baseline_ids, input_ids, input_mask, segment_ids = eval_features['baseline_ids'], eval_features['input_ids'], eval_features['input_mask'], eval_features['segment_ids']
+                baseline_ids = torch.tensor(baseline_ids, dtype=torch.long).unsqueeze(0)
+                input_ids = torch.tensor(input_ids, dtype=torch.long).unsqueeze(0)
+                input_mask = torch.tensor(input_mask, dtype=torch.long).unsqueeze(0)
+                segment_ids = torch.tensor(segment_ids, dtype=torch.long).unsqueeze(0)
+                # baseline_ids = baseline_ids.to(device) # shape==(1, 128)
+                input_ids = input_ids.to(device) # shape==(1, 128)
+                input_mask = input_mask.to(device) # shape==(1, 128)
+                segment_ids = segment_ids.to(device) # shape==(1, 128)
 
-        #         # record [MASK]'s position
-        #         tgt_pos = tokens_info['tokens'].index('[MASK]')
-        #         # record [MASK]'s gold label
-        #         gold_label = tokenizer.convert_tokens_to_ids(tokens_info['gold_obj'])
+                # record [MASK]'s position
+                tgt_pos = tokens_info['tokens'].index('[MASK]')
+                # record [MASK]'s gold label
+                gold_label = tokenizer.convert_tokens_to_ids(tokens_info['gold_obj'])
 
-        #         # original probability
-        #         _, logits = model(input_ids=input_ids, attention_mask=input_mask, token_type_ids=segment_ids, tgt_pos=tgt_pos, tgt_layer=0)  # (1, n_vocab) - corresponding to model's output 1 in "1_analyze_mlm.py" (config 0)
+                # original probability
+                _, logits = model(input_ids=input_ids, attention_mask=input_mask, token_type_ids=segment_ids, tgt_pos=tgt_pos, tgt_layer=0)  # (1, n_vocab) - corresponding to model's output 1 in "1_analyze_mlm.py" (config 0)
 
-        #         # ppl
-        #         gold_prob = F.softmax(logits, dim=-1)[0][gold_label] # tensor.size() == 1
-        #         log_ppl = np.log(1.0 / gold_prob.item())
-        #         log_ppl_list.append(log_ppl)
-        #         # predicted token
-        #         ori_pred_prob, ori_pred_label_id = F.softmax(logits, dim=-1)[0].max(dim=-1)
-        #         ori_pred_label = tokenizer.convert_ids_to_tokens(ori_pred_label_id.item())
-        #         # compare predicted token to ground truth
-        #         total += 1
-        #         if ori_pred_label == eval_example[1]:
-        #             correct += 1
-        # ppl = np.exp(np.array(log_ppl_list).mean())
-        # acc = correct / total
-        # # ========================== eval other =====================
-        # o_correct = 0
-        # o_total = 0
-        # o_log_ppl_list = []
-        # for o_rel, eval_bag_list in eval_bag_list_perrel.items():
-        #     if o_rel == rel:
-        #         continue
-        #     # print(f'evaluating for another relation {o_rel}')
-        #     for bag_idx, eval_bag in enumerate(eval_bag_list):
-        #         # if bag_idx % 100 != 0:
-        #         #     continue
-        #         for eval_example in eval_bag: # eval_example is a list (a triple); eval_bag is a list (template prompts)
-        #             eval_features, tokens_info = example2feature(eval_example, args.max_seq_length, tokenizer)
-        #             # convert features to long type tensors
-        #             baseline_ids, input_ids, input_mask, segment_ids = eval_features['baseline_ids'], eval_features['input_ids'], eval_features['input_mask'], eval_features['segment_ids']
-        #             baseline_ids = torch.tensor(baseline_ids, dtype=torch.long).unsqueeze(0)
-        #             input_ids = torch.tensor(input_ids, dtype=torch.long).unsqueeze(0)
-        #             input_mask = torch.tensor(input_mask, dtype=torch.long).unsqueeze(0)
-        #             segment_ids = torch.tensor(segment_ids, dtype=torch.long).unsqueeze(0)
-        #             # baseline_ids = baseline_ids.to(device) # shape==(1, 128)
-        #             input_ids = input_ids.to(device) # shape==(1, 128)
-        #             input_mask = input_mask.to(device) # shape==(1, 128)
-        #             segment_ids = segment_ids.to(device) # shape==(1, 128)
+                # ppl
+                gold_prob = F.softmax(logits, dim=-1)[0][gold_label] # tensor.size() == 1
+                log_ppl = np.log(1.0 / gold_prob.item())
+                log_ppl_list.append(log_ppl)
+                # predicted token
+                ori_pred_prob, ori_pred_label_id = F.softmax(logits, dim=-1)[0].max(dim=-1)
+                ori_pred_label = tokenizer.convert_ids_to_tokens(ori_pred_label_id.item())
+                # compare predicted token to ground truth
+                total += 1
+                if ori_pred_label == eval_example[1]:
+                    correct += 1
+        ppl = np.exp(np.array(log_ppl_list).mean())
+        acc = correct / total
+        # ========================== eval other =====================
+        o_correct = 0
+        o_total = 0
+        o_log_ppl_list = []
+        for o_rel, eval_bag_list in eval_bag_list_perrel.items():
+            if o_rel == rel:
+                continue
+            # print(f'evaluating for another relation {o_rel}')
+            for bag_idx, eval_bag in enumerate(eval_bag_list):
+                # if bag_idx % 100 != 0:
+                #     continue
+                for eval_example in eval_bag: # eval_example is a list (a triple); eval_bag is a list (template prompts)
+                    eval_features, tokens_info = example2feature(eval_example, args.max_seq_length, tokenizer)
+                    # convert features to long type tensors
+                    baseline_ids, input_ids, input_mask, segment_ids = eval_features['baseline_ids'], eval_features['input_ids'], eval_features['input_mask'], eval_features['segment_ids']
+                    baseline_ids = torch.tensor(baseline_ids, dtype=torch.long).unsqueeze(0)
+                    input_ids = torch.tensor(input_ids, dtype=torch.long).unsqueeze(0)
+                    input_mask = torch.tensor(input_mask, dtype=torch.long).unsqueeze(0)
+                    segment_ids = torch.tensor(segment_ids, dtype=torch.long).unsqueeze(0)
+                    # baseline_ids = baseline_ids.to(device) # shape==(1, 128)
+                    input_ids = input_ids.to(device) # shape==(1, 128)
+                    input_mask = input_mask.to(device) # shape==(1, 128)
+                    segment_ids = segment_ids.to(device) # shape==(1, 128)
 
-        #             # record [MASK]'s position
-        #             tgt_pos = tokens_info['tokens'].index('[MASK]')
-        #             # record [MASK]'s gold label
-        #             gold_label = tokenizer.convert_tokens_to_ids(tokens_info['gold_obj'])
+                    # record [MASK]'s position
+                    tgt_pos = tokens_info['tokens'].index('[MASK]')
+                    # record [MASK]'s gold label
+                    gold_label = tokenizer.convert_tokens_to_ids(tokens_info['gold_obj'])
 
-        #             # original probability
-        #             _, logits = model(input_ids=input_ids, attention_mask=input_mask, token_type_ids=segment_ids, tgt_pos=tgt_pos, tgt_layer=0)  # (1, n_vocab) - corresponding to model's output 1 in "1_analyze_mlm.py" (config 0)
+                    # original probability
+                    _, logits = model(input_ids=input_ids, attention_mask=input_mask, token_type_ids=segment_ids, tgt_pos=tgt_pos, tgt_layer=0)  # (1, n_vocab) - corresponding to model's output 1 in "1_analyze_mlm.py" (config 0)
 
-        #             # ppl
-        #             gold_prob = F.softmax(logits, dim=-1)[0][gold_label]
-        #             o_log_ppl = np.log(1.0 / gold_prob.item())
-        #             o_log_ppl_list.append(o_log_ppl)
-        #             # predicted token
-        #             ori_pred_prob, ori_pred_label_id = F.softmax(logits, dim=-1)[0].max(dim=-1)
-        #             ori_pred_label = tokenizer.convert_ids_to_tokens(ori_pred_label_id.item())
-        #             # compare predicted token to grouth truth
-        #             o_total += 1
-        #             if ori_pred_label == eval_example[1]:
-        #                 o_correct += 1
-        # o_ppl = np.exp(np.array(o_log_ppl_list).mean())
-        # o_acc = o_correct / o_total
+                    # ppl
+                    gold_prob = F.softmax(logits, dim=-1)[0][gold_label]
+                    o_log_ppl = np.log(1.0 / gold_prob.item())
+                    o_log_ppl_list.append(o_log_ppl)
+                    # predicted token
+                    ori_pred_prob, ori_pred_label_id = F.softmax(logits, dim=-1)[0].max(dim=-1)
+                    ori_pred_label = tokenizer.convert_ids_to_tokens(ori_pred_label_id.item())
+                    # compare predicted token to grouth truth
+                    o_total += 1
+                    if ori_pred_label == eval_example[1]:
+                        o_correct += 1
+        o_ppl = np.exp(np.array(o_log_ppl_list).mean())
+        o_acc = o_correct / o_total
 
         # ============================================== erase knowledge begin ===========================================================
         print(f'\nerasing -- kn_num: {len(kn_rel)}')
@@ -538,26 +538,26 @@ def main():
         print(f"\n***** {rel} erased. Costing time: {toc - tic:0.4f} seconds *****")
 
         print(f'======================================== {rel} ===========================================')
-        # print(f'original accuracy: {acc:.4}')
+        print(f'original accuracy: {acc:.4}')
         print(f'erased accuracy: {new_acc:.4}')
-        # erased_ratio = (acc - new_acc) / acc
-        # print(f'erased ratio: {erased_ratio:.4}')
+        erased_ratio = (acc - new_acc) / acc
+        print(f'erased ratio: {erased_ratio:.4}')
         print(f'# Kneurons: {len(kn_rel)}')
 
-        # print(f'original ppl: {ppl:.4}')
+        print(f'original ppl: {ppl:.4}')
         print(f'erased ppl: {new_ppl:.4}')
-        # erased_ratio = (ppl - new_ppl) / ppl
-        # print(f'ppl increasing ratio: {erased_ratio:.4}')
+        erased_ratio = (ppl - new_ppl) / ppl
+        print(f'ppl increasing ratio: {erased_ratio:.4}')
 
-        # print(f'(for other) original accuracy: {o_acc:.4}')
+        print(f'(for other) original accuracy: {o_acc:.4}')
         print(f'(for other) erased accuracy: {o_new_acc:.4}')
-        # o_erased_ratio = (o_acc - o_new_acc) / o_acc
-        # print(f'(for other) erased ratio: {o_erased_ratio:.4}')
+        o_erased_ratio = (o_acc - o_new_acc) / o_acc
+        print(f'(for other) erased ratio: {o_erased_ratio:.4}')
 
-        # print(f'(for other) original ppl: {o_ppl:.4}')
+        print(f'(for other) original ppl: {o_ppl:.4}')
         print(f'(for other) erased ppl: {o_new_ppl:.4}')
-        # o_erased_ratio = (o_ppl - o_new_ppl) / o_ppl
-        # print(f'(for other) ppl increasing ratio: {o_erased_ratio:.4}')
+        o_erased_ratio = (o_ppl - o_new_ppl) / o_ppl
+        print(f'(for other) ppl increasing ratio: {o_erased_ratio:.4}')
 
     # erase('P19')
     # erase('P27')
