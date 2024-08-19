@@ -1,7 +1,7 @@
 # Determining and erasing knowledge neurons in Transformer model
 
-From 1/2024 to 8/2024, defense at Computer Science committee of Information Technology faculty - VNU-HCM University of Science. \
-Advisor: Assoc. Prof. [Lê Hoàng Thái](https://www.fit.hcmus.edu.vn/~lhthai/).
+From 1/2024 to 8/2024, defense on Saturday 08/17/2024 (from 1:30 PM, room I.44) at Computer Science committee of Information Technology faculty - VNU-HCM University of Science. Advisor: Assoc. Prof. [Lê Hoàng Thái](https://www.fit.hcmus.edu.vn/~lhthai/). \
+Final score: 9.3/10
 
 | Name   | Nguyễn Trương Hoàng Thái[^1]  | Nguyễn Thiên Phúc[^1]  |
 |---|---|---|
@@ -9,6 +9,12 @@ Advisor: Assoc. Prof. [Lê Hoàng Thái](https://www.fit.hcmus.edu.vn/~lhthai/).
 
 # Introduction
 Our research focuses on determining and erasing knowledge neurons in [BERT-based-case](https://doi.org/10.48550/arXiv.1810.04805) model based on [integrated gradients](https://proceedings.mlr.press/v70/sundararajan17a.html) method, with the goal of privacy and saving retrain resource. Our experiment is conducted on cloze task [dataset](https://github.com/Thaifitus/determining_and_erasing_kns_in_transformer_thesis/blob/main/data/PARAREL/data_all_allbags.json) and evaluated with two main metrics which are model accuracy and perplexity. Our research mainly based on [Damai Dai 2022](https://doi.org/10.18653/v1/2022.acl-long.581) research.
+
+# Result
+![alt text](./img/erase_result.jpg "Perplexity evaluation metric of some relations before and after erasing knowledge. The higher increase ratio
+after erasing, the lower ground truth prediction probability.")
+*Perplexity evaluation metric of some relations before and after erasing knowledge. The higher increase ratio
+after erasing, the lower ground truth prediction probability.*
 
 # Task List
 | Task  | Description  | Thai  | Phuc  |
@@ -48,7 +54,7 @@ I want to give sincere thanks to my family and our advisor Assoc. Prof. Le Hoang
 
 # Pricing (VND)
 * Colab Pro+: $\approx$ 1 384 000 (Colab price + tax + bank charge)
-* Printing: $\approx$ 180 000
+* Printing: $\approx$ 210 000
 * Overleaf subscription (student plan): 235 000
 
 Contribution formula: $`\frac{\text{task completed in Task List (I + II + IV)}}{\text{total task in three corresponding sections}}`$. Team tasks like Machine Unlearning survey, Transformer architecture in section I and section III are not contained in contribution. Phuc's contribution: $`\frac{0.5 \times 5 + 0.25}{16}`$, Thai's contribution: $`\frac{1 + 0.5 + 1 + 0.5 \times 4 + 1 + 0.75 + 7}{16}`$.
