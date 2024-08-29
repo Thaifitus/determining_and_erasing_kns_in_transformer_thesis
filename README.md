@@ -8,7 +8,7 @@ Final score: 9.3/10
 | Student ID  | 20127625  | 20127681  |
 
 # Introduction
-Our research focuses on determining and erasing knowledge neurons in [BERT-based-case](https://doi.org/10.48550/arXiv.1810.04805) model based on [integrated gradients](https://proceedings.mlr.press/v70/sundararajan17a.html) method, with the goal of privacy and saving retrain resource. Our experiment is conducted on cloze task [dataset](https://github.com/Thaifitus/determining_and_erasing_kns_in_transformer_thesis/blob/main/data/PARAREL/data_all_allbags.json) and evaluated with two main metrics which are model accuracy and perplexity. Our research mainly based on [Damai Dai 2022](https://doi.org/10.18653/v1/2022.acl-long.581) research.
+Our research focuses on determining and erasing knowledge neurons in [BERT-based-case](https://doi.org/10.48550/arXiv.1810.04805) language model based on [integrated gradients](https://proceedings.mlr.press/v70/sundararajan17a.html) method, with the goal of privacy and saving retrain resources. Our experiment is conducted on cloze task [dataset](https://github.com/Thaifitus/determining_and_erasing_kns_in_transformer_thesis/blob/main/data/PARAREL/data_all_allbags.json) and evaluated with two main metrics which are model accuracy and perplexity. Our research mainly based on [Damai Dai 2022](https://doi.org/10.18653/v1/2022.acl-long.581) research.
 
 # Result
 ![alt text](./img/erase_result.jpg "Perplexity evaluation metric of some relations before and after erasing knowledge. The higher increase ratio
@@ -34,7 +34,7 @@ after erasing, the lower ground truth prediction probability.*
 | Calculate attribution score of neurons  | Create function recipe and modify *1_analyze_mlm.py* for experiment.  | <center>X</center>  | <center>X</center>[^4]  |
 | Refine neurons  | Create function recipe and modify *2_get_kn.py* for experiment.  | <center>X</center>  |   |
 | Knowledge neuron statistic  | Create function recipe and modify *2_analyze_kn.py* for experiment.  | <center>X</center>  |   |
-| Modify attribution score  | Create function recipe and modify (amplifying coefficient 4 and 6) *3_modify_activation.py* for experiment.  | <center>X</center>  |   |
+| Modify activation  | Create function recipe and modify (amplifying coefficient 4, 6, 8, 10, 12) *3_modify_activation.py* and *custom_bert.py* for experiment.  | <center>X</center>  |   |
 | Erase knowledge  | Create function recipe and modify *7_erase_knowledge.py* for experiment; erase knowledge neurons in dense (hidden) layer.  | <center>X</center>  |   |
 | Survey implement  | Create notebook files, research GPUs, apply Git.   | <center>X</center>  |   |
 | **III. Write latex report**  | (1) Section: 1.1 + 2.1 + 2.2 + 3.1 + 3.2 + 3.3.2 + 4.1.1 <br> (2) Section: 1.2 &rarr; 1.4 + 2.3 + 2.4 + 3.3.1 + 3.4 + 4.1.2 &rarr; 4.6  | <center>X</center>[^5]  | <center>X</center>[^6]  |
